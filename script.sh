@@ -1,0 +1,1 @@
+sudo ./root --state=$(pwd)/.conf/tailscaled.state
