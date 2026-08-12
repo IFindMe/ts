@@ -14,7 +14,7 @@ int main() {
   assert(!ts::auth::isValidAuthKey(wrongPrefix, std::strlen(wrongPrefix)));
   assert(!ts::auth::isValidAuthKey("", 0));
 
-  char longKey[129] = {};
+  char longKey[130] = {};
   std::memcpy(longKey, "tskey-auth-", 11);
   for (size_t i = 11; i < sizeof(longKey) - 1; ++i) longKey[i] = 'a';
   assert(!ts::auth::isValidAuthKey(longKey, sizeof(longKey) - 1));
