@@ -1,0 +1,25 @@
+name: Teensy 4.1 firmware
+
+on:
+  push:
+    paths:
+      - 'firmware/teensy41/**'
+      - '.github/workflows/teensy41.yml'
+  pull_request:
+    paths:
+      - 'firmware/teensy41/**'
+      - '.github/workflows/teensy41.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install PlatformIO
+        run: pip install platformio
+      - name: Build Teensy 4.1 firmware
+        working-directory: firmware/teensy41
+        run: pio run -e teensy41
