@@ -20,6 +20,14 @@ jobs:
           python-version: '3.x'
       - name: Install PlatformIO
         run: pip install platformio
+      - name: Run host BLAKE2s tests
+        run: |
+          g++ -std=c++17 -Wall -Wextra -Werror \
+            -Ifirmware/teensy41/include \
+            firmware/teensy41/src/blake2s.cpp \
+            firmware/teensy41/test/blake2s_host.cpp \
+            -o /tmp/blake2s-host-test
+          /tmp/blake2s-host-test
       - name: Build Teensy 4.1 firmware
         working-directory: firmware/teensy41
         run: pio run -e teensy41
