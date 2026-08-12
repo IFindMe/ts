@@ -1,0 +1,35 @@
+name: Teensy 4.1 M2 identity
+
+on:
+  push:
+    paths:
+      - 'firmware/teensy41/include/ts_auth.h'
+      - 'firmware/teensy41/src/ts_auth.cpp'
+      - 'firmware/teensy41/include/ts_state.h'
+      - 'firmware/teensy41/src/ts_state.cpp'
+      - 'firmware/teensy41/test/m2_identity_tests.cpp'
+      - '.github/workflows/m2-identity.yml'
+  pull_request:
+    paths:
+      - 'firmware/teensy41/include/ts_auth.h'
+      - 'firmware/teensy41/src/ts_auth.cpp'
+      - 'firmware/teensy41/include/ts_state.h'
+      - 'firmware/teensy41/src/ts_state.cpp'
+      - 'firmware/teensy41/test/m2_identity_tests.cpp'
+      - '.github/workflows/m2-identity.yml'
+
+jobs:
+  host-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile M2 identity tests
+        run: |
+          g++ -std=c++17 -Wall -Wextra -Werror \
+            -Ifirmware/teensy41/include \
+            firmware/teensy41/src/ts_auth.cpp \
+            firmware/teensy41/src/ts_state.cpp \
+            firmware/teensy41/test/m2_identity_tests.cpp \
+            -o /tmp/m2-identity-test
+      - name: Run M2 identity tests
+        run: /tmp/m2-identity-test
