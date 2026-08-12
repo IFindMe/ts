@@ -2,7 +2,11 @@
 
 M2 establishes the local identity material needed for a real Tailscale node.
 
-Tailscale uses separate machine and node key pairs. The machine key identifies the physical device to the control plane; the node key identifies the authenticated node and is used for network access and WireGuard. Private keys stay on the device. Public keys are sent to the control plane. citeturn214202search1turn214202search3
+Tailscale uses separate machine and node key pairs. The machine key identifies the physical device to the control plane; the node key identifies the authenticated node and is used for network access and WireGuard. Private keys stay on the device, while public keys are distributed by the control plane.
+
+References:
+- https://tailscale.com/docs/concepts/node-keys
+- https://tailscale.com/docs/concepts/tailscale-identity
 
 ## Storage
 
@@ -18,9 +22,11 @@ Public keys are derived when needed and are never stored as authoritative state.
 
 ## Auth key
 
-M2 accepts a Tailscale auth key beginning with `tskey-auth-`. Tailscale documents auth keys as headless/pre-authentication credentials for devices such as IoT hardware. citeturn214202search0
+M2 accepts a Tailscale auth key beginning with `tskey-auth-`. Tailscale documents auth keys as headless/pre-authentication credentials for devices such as IoT hardware.
 
-The implementation intentionally does **not** write the auth key to EEPROM. It stays in RAM until cleared. This limits the lifetime of the provisioning credential and avoids turning the firmware image or persistent state into a credential store.
+Reference: https://tailscale.com/docs/features/access-control/auth-keys
+
+The implementation intentionally does **not** write the auth key to EEPROM. It stays in RAM until cleared. This limits the lifetime of the provisioning credential and avoids turning persistent firmware state into a credential store.
 
 M3 will consume the RAM-only auth key for the actual `/machine/register` flow.
 
